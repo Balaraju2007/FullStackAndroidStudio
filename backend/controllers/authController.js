@@ -27,4 +27,30 @@ const registerUser = async (req, res) => {
     }
 };
 
-export { registerUser };
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Please provide email and password' });
+        }
+        const existingUser = await user.findOne({ email });
+        if (!existingUser) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }   
+        const isMatch = await bycerpt.compare(password, existingUser.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }   
+        res.status(200).json({ message: 'Login successful',
+            user:{ name: existingUser.name, email: existingUser.email , id: existingUser._id  }
+         });
+    }
+        catch (error) {
+        console.error('Error logging in user:', error);
+        res.status(500).json({ message: 'Server error' });
+    }   
+
+}
+
+
+export { registerUser, loginUser };

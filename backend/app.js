@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { registerUser } from './controllers/authController.js';
+import { loginUser } from './controllers/authController.js';
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use(morgan('dev'));    // log HTTP requests
 // app.post("/api");
 // Test route
 app.post('/api/register', registerUser);
+app.post('/api/login', loginUser);
+
 app.get('/', (req, res) => {
   res.send('Backend is running!');
 });
