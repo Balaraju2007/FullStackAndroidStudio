@@ -7,6 +7,11 @@ backend/npm-debug.log*
 backend/yarn-debug.log*
 backend/yarn-error.log*
 
+# Ignore Android Studio project files
+.idea/
+*.iml
+.vscode/
+
 # ----------------------
 # Android / Frontend
 # ----------------------
