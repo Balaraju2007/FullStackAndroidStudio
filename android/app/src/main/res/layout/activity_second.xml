@@ -3,29 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
-
+        android:padding="16dp"
+        android:layout_gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"/>
         <!-- Email -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
             android:textSize="16sp"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="center"/>
 
         <EditText
             android:id="@+id/email"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="Enter your email"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center"/>
 
         <!-- Password -->
         <TextView
@@ -33,15 +46,17 @@
             android:layout_height="wrap_content"
             android:text="Password"
             android:textSize="16sp"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="center"/>
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="Enter your password"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center"/>
 
         <!-- Navigate Button -->
         <Button
@@ -52,4 +67,5 @@
             android:layout_gravity="center"/>
 
     </LinearLayout>
+    </FrameLayout>
 </ScrollView>
