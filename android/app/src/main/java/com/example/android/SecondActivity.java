@@ -11,22 +11,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class SecondActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Button buttonNavigate = findViewById(R.id.buttonNavigate);
+        setContentView(R.layout.activity_second);
+        Button buttonNavigate = findViewById(R.id.signin);
         buttonNavigate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                        public void onClick(View v){
-                            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                            startActivity(intent);
-                        }
-
-
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         });
-
     }
 }
