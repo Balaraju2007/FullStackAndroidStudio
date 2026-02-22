@@ -1,6 +1,10 @@
+# Node.js
 node_modules/
-dist/
 .env
-logs/
-*.log
 
+# Android Studio
+.idea/
+*.iml
+/build/
+*/build/
+local.properties
