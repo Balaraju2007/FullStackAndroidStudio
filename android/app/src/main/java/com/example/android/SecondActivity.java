@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONObject;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,8 +34,14 @@ public class SecondActivity extends AppCompatActivity {
             String email = emailEt.getText().toString().trim();
             String password = passwordEt.getText().toString().trim();
 
-            LoginRequest request =
-                    new LoginRequest(email, password);
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(SecondActivity.this,
+                        "Please enter email and password",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            LoginRequest request = new LoginRequest(email, password);
 
             ApiService apiService =
                     ApiClient.getClient().create(ApiService.class);
@@ -44,17 +52,44 @@ public class SecondActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ResponseBody> call,
                                                Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
 
-                                Toast.makeText(SecondActivity.this,
-                                        "Login Successful",
-                                        Toast.LENGTH_SHORT).show();
+                            if (response.isSuccessful() && response.body() != null) {
 
-                                startActivity(new Intent(
-                                        SecondActivity.this,
-                                        HomePage.class));
+                                try {
+                                    String responseString = response.body().string();
 
-                                finish();   // optional
+                                    JSONObject jsonObject = new JSONObject(responseString);
+
+                                    String message = jsonObject.getString("message");
+
+                                    JSONObject userObject =
+                                            jsonObject.getJSONObject("user");
+
+                                    String name = userObject.getString("name");
+                                    String userEmail = userObject.getString("email");
+                                    String id = userObject.getString("id");
+
+                                    Toast.makeText(SecondActivity.this,
+                                            message,
+                                            Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(
+                                            SecondActivity.this,
+                                            HomePage.class);
+
+                                    intent.putExtra("name", name);
+                                    intent.putExtra("email", userEmail);
+                                    intent.putExtra("id", id);
+
+                                    startActivity(intent);
+                                    finish();
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(SecondActivity.this,
+                                            "Parsing Error",
+                                            Toast.LENGTH_SHORT).show();
+                                }
 
                             } else {
 
