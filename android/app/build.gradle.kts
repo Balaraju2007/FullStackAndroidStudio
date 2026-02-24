@@ -4,9 +4,8 @@ plugins {
 
 android {
     namespace = "com.example.android"
-    compileSdk {
-        version = release(36)
-    }
+
+    compileSdk = 36   // ✅ simplified (your current way also works but this is cleaner)
 
     defaultConfig {
         applicationId = "com.example.android"
@@ -19,14 +18,35 @@ android {
     }
 
     buildTypes {
-        release {
+
+        getByName("debug") {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"http://192.168.29.117:5000/\""
+            )
+        }
+
+        getByName("release") {
             isMinifyEnabled = false
+
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://your-deployed-url.com/\""
+            )
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
+    buildFeatures {
+        buildConfig = true   // ✅ Important
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -41,4 +61,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }

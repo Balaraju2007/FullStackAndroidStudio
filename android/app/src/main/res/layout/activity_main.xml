@@ -53,7 +53,7 @@
                 android:layout_marginBottom="4dp"
                 android:layout_gravity="center"/>
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/emailRegistration"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -70,7 +70,7 @@
                 android:layout_marginBottom="4dp"
                 android:layout_gravity="center"/>
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/passwordRegistration"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -83,8 +83,15 @@
                 android:id="@+id/buttonNavigate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Go to Second Page"
+                android:text="Register"
                 android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/signining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Signin"
+                android:layout_gravity="center"/>
+
         </LinearLayout>
     </FrameLayout>
 </ScrollView>
