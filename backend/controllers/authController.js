@@ -1,5 +1,6 @@
 import user from '../models/user.js';
-import bycerpt from 'bcryptjs';
+import bycrpt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 // @desc    Register a new user 
 // @route   POST /api/register
 const registerUser = async (req, res) => {
@@ -15,7 +16,7 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }   
         
-        const hashedPassword = await bycerpt.hash(password, 10);
+        const hashedPassword = await bycrpt.hash(password, 10);
         const newUser = new user({ name, email, password: hashedPassword });
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully', 
@@ -25,6 +26,14 @@ const registerUser = async (req, res) => {
         console.error('Error registering user:', error);
         res.status(500).json({ message: 'Server error' });
     }
+};
+
+const generateToken = (id) => {
+    return jwt.sign(
+        { id },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
 };
 
 const loginUser = async (req, res) => {
@@ -37,11 +46,16 @@ const loginUser = async (req, res) => {
         if (!existingUser) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }   
-        const isMatch = await bycerpt.compare(password, existingUser.password);
+        const isMatch = await bycrpt.compare(password, existingUser.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
-        }   
+        }
+
+        const token = generateToken(existingUser._id);
+
+
         res.status(200).json({ message: 'Login successful',
+            token,
             user:{ name: existingUser.name, email: existingUser.email , id: existingUser._id  }
          });
     }
