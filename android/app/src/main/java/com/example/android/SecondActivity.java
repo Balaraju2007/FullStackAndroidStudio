@@ -1,6 +1,8 @@
 package com.example.android;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +63,17 @@ public class SecondActivity extends AppCompatActivity {
                                     JSONObject jsonObject = new JSONObject(responseString);
 
                                     String message = jsonObject.getString("message");
+                                    String token = jsonObject.getString("token");
+                                    try {
+                                        Log.d("API_RESPONSE", jsonObject.toString(4)); // formatted JSON
+                                    } catch (Exception e) {
+                                        Log.d("API_RESPONSE", jsonObject.toString()); // fallback plain JSON
+                                    }
+
+                                    SharedPreferences prefs = getSharedPreferences("my_prefs", MODE_PRIVATE);
+//                                    prefs.edit().putString("JWT_TOKEN", token).apply();
+//                                    Log.d("JWT_TOKEN", "Token saved in SharedPreferences");
+
 
                                     JSONObject userObject =
                                             jsonObject.getJSONObject("user");
@@ -68,6 +81,15 @@ public class SecondActivity extends AppCompatActivity {
                                     String name = userObject.getString("name");
                                     String userEmail = userObject.getString("email");
                                     String id = userObject.getString("id");
+
+                                    prefs.edit().putString("JWT_TOKEN", token)
+                                            .putString("USER_NAME", name)
+                                            .putString("USER_EMAIL", userEmail)
+                                            .putString("USER_ID", id)
+                                            .apply();
+
+
+
 
                                     Toast.makeText(SecondActivity.this,
                                             message,
